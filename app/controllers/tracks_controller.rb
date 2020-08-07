@@ -1,5 +1,5 @@
 class TracksController < ApplicationController
-    brefore_action :require_user!
+    before_action :require_user!
 
     def show
         @track = Track.find(params[:id])
@@ -8,7 +8,7 @@ class TracksController < ApplicationController
 
     def new
         @album = Album.find(params[:album_id])
-        @track = Track.new(album_id params[:album_id])
+        @track = Track.new(album_id: params[:album_id])
         render :new
     end
 
