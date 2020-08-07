@@ -1,11 +1,12 @@
 class User < ApplicationRecord
-    validates :email, :password_digest, :session_token, presence: true
+    validates :activation_token, :email, :password_digest, :session_token, presence: true
     validates :password, length: { minimum: 6, allow_nil: true }
-    validates :email, :session_token, uniqueness: true
+    validates :email, :session_token, :activation_token, uniqueness: true
     
     attr_reader :password
 
     after_initialize :ensure_session_token
+    after_initialize :set_activation_token
 
     has_many :notes
 
@@ -13,6 +14,10 @@ class User < ApplicationRecord
         user = User.find_by(email: email)
 
         user && user.is_password?(password) ? user : nil
+    end
+
+    def set_activation_token
+        self.activation_token = generate_unique_activation_token
     end
     
     def password=(password)
@@ -42,6 +47,18 @@ class User < ApplicationRecord
         end
 
         token
+    end
+
+    def generate_unique_activation_token
+        token = SecureRandom.urlsafe_base64(16)
+        while self.class.exists?(activation_token: token)
+            token = SecureRandom.urlsafe_base64(16)
+        end
+        token
+    end
+
+    def activate!
+        self.update_attribute(:activated, true)
     end
 end
 

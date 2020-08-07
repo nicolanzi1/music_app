@@ -1,0 +1,9 @@
+Welcome to MusicApp <%= @user.email %>
+=============================================
+
+You have successfully signed up MusicApp!
+PLease activate your account by visiting this link:
+
+<%= activate_users_url(activation_token: @user.activation_token) %>
+
+Thanks for joining and let's ROCK together!

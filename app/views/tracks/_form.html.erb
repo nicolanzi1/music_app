@@ -7,7 +7,7 @@
 
     <p>
         <label for="track-name">Name</label>
-        <input type="text" name="track[name]" id="track-name">
+        <input type="text" name="track[name]" id="track-name" value="<%= track.name %>">
     </p>
 
     <p>
@@ -50,7 +50,7 @@
     <p>
         <label for="track_lyrics">Lyrics</label><br>
         <textarea id="track_lyrics"
-            cols="50" rows="40"
+            cols="40" rows="10"
             name="track[lyrics]"><%= track.lyrics %></textarea>
     </p>
 

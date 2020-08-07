@@ -12,6 +12,9 @@ class SessionsController < ApplicationController
         if user.nil?
             flash.now[:errors] = ["Invalid credentials."]
             render :new
+        elsif !user.activated?
+            flash.now[:errors] = ["You must activate your account first!"]
+            render :new
         else
             login_user!(user)
             redirect_to root_url
